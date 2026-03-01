@@ -38,9 +38,12 @@ app.Use(async (context, next) =>
     await next();
 });
 
-// app.Run(async context =>
-// {
-//     await context.Response.WriteAsync("Hello World!");
-// });
+app.Map("/helloworld", (IApplicationBuilder app) =>
+{
+    app.Run(async context =>
+    {
+        await context.Response.WriteAsync("Hello World!");
+    });
+});
 
 app.Run();
