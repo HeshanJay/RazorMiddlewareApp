@@ -23,9 +23,24 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-app.Run(async context =>
+app.Use(async (context, next) =>
 {
-    await context.Response.WriteAsync("Hello World!");
+    context.Request.Headers.Append(
+        "X-Timestamp",
+        DateTime.Now.ToLongTimeString()
+    );
+
+    context.Response.Headers.Append(
+        "X-Content-Type-Options",
+        "nosniff"
+    );
+
+    await next();
 });
+
+// app.Run(async context =>
+// {
+//     await context.Response.WriteAsync("Hello World!");
+// });
 
 app.Run();

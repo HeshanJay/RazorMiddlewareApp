@@ -94,3 +94,4 @@ C:\My Documents\Personal Projects\ASP .NET Core Razor Pages\RazorMiddlewareApp\o
 C:\My Documents\Personal Projects\ASP .NET Core Razor Pages\RazorMiddlewareApp\obj\Debug\net9.0\RazorMiddlewareApp.pdb
 C:\My Documents\Personal Projects\ASP .NET Core Razor Pages\RazorMiddlewareApp\obj\Debug\net9.0\RazorMiddlewareApp.genruntimeconfig.cache
 C:\My Documents\Personal Projects\ASP .NET Core Razor Pages\RazorMiddlewareApp\obj\Debug\net9.0\ref\RazorMiddlewareApp.dll
+C:\My Documents\Personal Projects\ASP .NET Core Razor Pages\RazorMiddlewareApp\obj\Debug\net9.0\RazorMiddlewareApp.sourcelink.json
