@@ -25,7 +25,7 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-app.UseMiddleware<MyCustomMiddleware>();
+app.UseMyCustom();
 
 app.Map("/helloworld", (IApplicationBuilder app) =>
 {

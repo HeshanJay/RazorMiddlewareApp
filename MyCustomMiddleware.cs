@@ -23,3 +23,11 @@ public class MyCustomMiddleware
         await _next(context);
     }
 }
+
+public static class MyCustomMiddlewareExtensions
+{
+    public static IApplicationBuilder UseMyCustom(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<MyCustomMiddleware>();
+    }
+}
