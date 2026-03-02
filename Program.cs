@@ -23,33 +23,26 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-app.MapWhen(context => new Random().Next(1, 6) == 1,
-    (IApplicationBuilder app) =>
-    {
-        app.Run(async context =>
-        {
-            await context.Response.WriteAsync("Rate limiting is in effect.");
+app.UseWhen(context => context.Request.Headers["User-Agent"]!.ToString().Contains("Firefox"), 
+    (IApplicationBuilder app) => {
+        app.Use(async (context, next) => {
+            context.Request.Headers.Append(
+                "X-FormFactor",
+                "Mobile"
+            );
+            await next();
         });
     });
 
-app.UseWhen(context => context.Request.Query.ContainsKey("theme"),
-    (IApplicationBuilder app) =>
-    {
-        app.Use(async (context, next) =>
-        {
-            string[] validThemes = { "light", "dark" };
-            if (Array.Exists(validThemes, t => t == context.Request.Query["theme"]))
-            {
-                context.Request.Headers.Append(
-                    "X-Theme",
-                    context.Request.Query["theme"]
-                );
-            }
-
-            await next();
-        });
+app.Use(async (context, next) => {
+    if (context.Request.Path == "/" ||
+        context.Request.Path == "/Index") {
+        if (new Random().Next(1, 6) == 1) {
+            context.Response.Redirect("/IndexNew");
+        }
     }
-);
+    await next();
+});
 
 app.Use(async (context, next) =>
 {
