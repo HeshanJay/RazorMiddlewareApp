@@ -23,6 +23,15 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
+app.MapWhen(context => new Random().Next(1, 6) == 1,
+    (IApplicationBuilder app) =>
+    {
+        app.Run(async context =>
+        {
+            await context.Response.WriteAsync("Rate limiting is in effect.");
+        });
+    });
+
 app.Use(async (context, next) =>
 {
     context.Request.Headers.Append(
