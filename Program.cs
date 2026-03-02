@@ -1,3 +1,5 @@
+using AspNetCoreMiddleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,41 +25,7 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-app.UseWhen(context => context.Request.Headers["User-Agent"]!.ToString().Contains("Firefox"), 
-    (IApplicationBuilder app) => {
-        app.Use(async (context, next) => {
-            context.Request.Headers.Append(
-                "X-FormFactor",
-                "Mobile"
-            );
-            await next();
-        });
-    });
-
-app.Use(async (context, next) => {
-    if (context.Request.Path == "/" ||
-        context.Request.Path == "/Index") {
-        if (new Random().Next(1, 6) == 1) {
-            context.Response.Redirect("/IndexNew");
-        }
-    }
-    await next();
-});
-
-app.Use(async (context, next) =>
-{
-    context.Request.Headers.Append(
-        "X-Timestamp",
-        DateTime.Now.ToLongTimeString()
-    );
-
-    context.Response.Headers.Append(
-        "X-Content-Type-Options",
-        "nosniff"
-    );
-
-    await next();
-});
+app.UseMiddleware<MyCustomMiddleware>();
 
 app.Map("/helloworld", (IApplicationBuilder app) =>
 {
