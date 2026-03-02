@@ -32,6 +32,25 @@ app.MapWhen(context => new Random().Next(1, 6) == 1,
         });
     });
 
+app.UseWhen(context => context.Request.Query.ContainsKey("theme"),
+    (IApplicationBuilder app) =>
+    {
+        app.Use(async (context, next) =>
+        {
+            string[] validThemes = { "light", "dark" };
+            if (Array.Exists(validThemes, t => t == context.Request.Query["theme"]))
+            {
+                context.Request.Headers.Append(
+                    "X-Theme",
+                    context.Request.Query["theme"]
+                );
+            }
+
+            await next();
+        });
+    }
+);
+
 app.Use(async (context, next) =>
 {
     context.Request.Headers.Append(
