@@ -4,7 +4,15 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Timestamp: @HttpContext.Request.Headers["X-Timestamp"].</p>
-</div>
+@if (HttpContext.Request.Headers.ContainsKey("X-FormFactor") &&
+     HttpContext.Request.Headers["X-FormFactor"] == "Mobile")
+{
+    await Html.RenderPartialAsync("_IndexMobile");
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Timestamp: @HttpContext.Request.Headers["X-Timestamp"].</p>
+    </div>
+}
